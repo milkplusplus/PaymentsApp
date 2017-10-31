@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import paymentsystem.models.User;
 import paymentsystem.services.UserService;
+import paymentsystem.services.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private UserService userService = new UserServiceImpl();
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String index() {
@@ -63,9 +64,10 @@ public class UserController {
 
     @RequestMapping(value = "/admin/find/{id}", method = RequestMethod.GET)
     public ModelAndView findById(@PathVariable("id") long id) {
-        userService.findById(id);
+        User user = userService.findById(id);
         //TODO
         ModelAndView m = new ModelAndView("successfulFound");
+        m.addObject("login", user.getLogin());
         return m;
     }
 
