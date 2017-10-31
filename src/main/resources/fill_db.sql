@@ -1,3 +1,4 @@
+use payments_db;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `fill_db1`$$
 CREATE PROCEDURE fill_db1()

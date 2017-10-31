@@ -1,3 +1,4 @@
+use payments_db;
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS bank_accounts;
