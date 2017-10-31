@@ -21,4 +21,9 @@ public class UserServiceImpl implements UserService{
 	public User findById(Long id) {
 		return repo.findOne(id);
 	}
+
+	@Override
+	public void save(User user) {
+
+	}
 }
