@@ -9,6 +9,8 @@ import paymentsystem.models.Transaction;
 import paymentsystem.models.User;
 import paymentsystem.services.TransactionService;
 import paymentsystem.services.TransactionServiceImpl;
+//import paymentsystem.services.TransactionService;
+//import paymentsystem.services.TransactionServiceImpl;
 import paymentsystem.services.UserService;
 import paymentsystem.services.UserServiceImpl;
 
@@ -34,7 +36,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
     public ModelAndView showAllTransactions() {
-        List<Transaction> tr = transactionService.getAll();
+        List<Transaction> tr = transactionService.selectAll();
         ModelAndView m = new ModelAndView("showTransactions");
         m.addObject("transactions",tr);
         return m;
@@ -59,13 +61,14 @@ public class UserController {
 
     @RequestMapping(value = "/admin/create", method = RequestMethod.GET)
     public String create(User user) {
-        userService.save(user);
+        //userService.save(user);
         return "redirect:/admin/";
     }
 
     @RequestMapping(value = "/admin/update", method = RequestMethod.GET)
-    public String update(User user) {
-        userService.save(user);
+//    public String update(User user) {
+    	public String update() {
+        userService.save();
         return "redirect:/admin/";
     }
 
@@ -80,7 +83,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.GET)
     public String deleteById(@PathVariable("id") long id ) {
-        userService.findById(id);
+        userService.deleteById(4L);
         //TODO
         return "redirect:/admin/";
     }

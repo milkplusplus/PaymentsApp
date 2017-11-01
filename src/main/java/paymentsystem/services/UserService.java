@@ -8,8 +8,9 @@ import paymentsystem.models.User;
 
 public interface UserService {
 	User findById(Long id);
-
-    void save(User user);
+//    void save(User user);
+    void save();
+	void deleteById(Long id);
 
 }
 
