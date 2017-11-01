@@ -12,7 +12,6 @@
 <table class="table table-striped">
 <thead>
   <tr>
-        <td></td>
         <td>Index</td>
         <td>ID</td>
         <td>Login</td>
@@ -23,7 +22,6 @@
    <tbody>
   <c:forEach var="user" items="${users}" varStatus="status">
     <tr>
-      <td><input type="checkbox" value=""/></td>
       <td><c:out value="${status.index}"/></td>
       <td><c:out value="${user.id}"/></td>
       <td><c:out value="${user.login}"/></td>
