@@ -5,16 +5,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import paymentsystem.models.Transaction;
 import paymentsystem.models.User;
+import paymentsystem.services.TransactionService;
+import paymentsystem.services.TransactionServiceImpl;
 import paymentsystem.services.UserService;
 import paymentsystem.services.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class UserController {
 
     private UserService userService = new UserServiceImpl();
+    private TransactionService transactionService = new TransactionServiceImpl();
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String index() {
@@ -29,8 +34,10 @@ public class UserController {
 
     @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
     public ModelAndView showAllTransactions() {
-        //TODO
-        return new ModelAndView("showTransactions");
+        List<Transaction> tr = transactionService.getAll();
+        ModelAndView m = new ModelAndView("showTransactions");
+        m.addObject("transactions",tr);
+        return m;
     }
 
     @RequestMapping(value = "/admin/show_users", method = RequestMethod.GET)
