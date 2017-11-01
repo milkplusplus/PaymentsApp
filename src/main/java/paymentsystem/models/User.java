@@ -20,10 +20,10 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getIsAdmin() {
+	public String getIs_admin() {
 		return is_admin;
 	}
-	public void setIsAdmin(String isAdmin) {
+	public void setIs_admin(String isAdmin) {
 		this.is_admin = isAdmin;
 	}
 	public String getLogin() {

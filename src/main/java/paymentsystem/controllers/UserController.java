@@ -44,11 +44,13 @@ public class UserController {
 
     @RequestMapping(value = "/admin/show_users", method = RequestMethod.GET)
     public ModelAndView showAllUsers() {
-        //TODO
-        return new ModelAndView("showUsers");
+        List<User> users = null; //= userService.selectAll();
+        ModelAndView m = new ModelAndView("showUsers");
+        m.addObject("users",users);
+        return m;
     }
 
-    @RequestMapping(value = "/admin/show_users/unblock/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/show_clients/unblock/{id}", method = RequestMethod.GET)
     public String unblockUser(@PathVariable("id") int id ){
         //TODO
         return "redirect:/admin/show_users";
@@ -62,14 +64,13 @@ public class UserController {
     @RequestMapping(value = "/admin/create", method = RequestMethod.GET)
     public String create(User user) {
         //userService.save(user);
-        return "redirect:/admin/";
+        return "redirect:/admin/show_users";
     }
 
-    @RequestMapping(value = "/admin/update", method = RequestMethod.GET)
-//    public String update(User user) {
-    	public String update() {
-        userService.save();
-        return "redirect:/admin/";
+    @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.GET)
+    	public String update(@PathVariable("id") long id) {
+        //userService.save();
+        return "redirect:/admin/show_users";
     }
 
     @RequestMapping(value = "/admin/find/{id}", method = RequestMethod.GET)

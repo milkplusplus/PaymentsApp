@@ -2,9 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
   <head><title>Transactions</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <jsp:include page="includeFile.jsp"></jsp:include>
   </head>
   <body>
   <div class="container">
@@ -13,12 +11,12 @@
 <thead>
   <tr>
         <td>INDEX</td>
-        <td>ID</th>
-        <td>Data</th>
-        <td>Sum</th>
-        <td>Type of transaction</th>
-        <td>ID of card</th>
-        <td>ID of client</th>
+        <td>ID</td>
+        <td>Data</td>
+        <td>Sum</td>
+        <td>Type of transaction</td>
+        <td>ID of card</td>
+        <td>ID of client</td>
    </tr>
    </thead>
    <tbody>
