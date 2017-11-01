@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer is_admin;
+    private String is_admin;
     private String login;
     private String password;
     
@@ -20,10 +20,10 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getIsAdmin() {
+	public String getIsAdmin() {
 		return is_admin;
 	}
-	public void setIsAdmin(Integer isAdmin) {
+	public void setIsAdmin(String isAdmin) {
 		this.is_admin = isAdmin;
 	}
 	public String getLogin() {

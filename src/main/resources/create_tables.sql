@@ -1,4 +1,3 @@
-use payments_db;
 DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS bank_accounts;
@@ -7,8 +6,8 @@ DROP TABLE IF EXISTS users;
 
 
 CREATE TABLE users (
-	id INT NOT NULL,
-	is_admin TINYINT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
+	is_admin VARCHAR(12) NOT NULL,
 	login VARCHAR(6) NOT NULL,
 	password VARCHAR(6) NOT NULL,
 
@@ -17,7 +16,7 @@ CREATE TABLE users (
 
 
 CREATE TABLE clients (
-	id INT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
 	first_name VARCHAR(10) NOT NULL,
 	last_name VARCHAR(12) NOT NULL,
 	surname VARCHAR(14) NOT NULL,
@@ -31,7 +30,7 @@ CREATE TABLE clients (
 
 
 CREATE TABLE bank_accounts (
-	id INT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
 	balance INT NOT NULL,
 	is_blocked TINYINT NOT NULL,	
 
@@ -40,7 +39,7 @@ CREATE TABLE bank_accounts (
 
 
 CREATE TABLE cards (
-	id INT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
 	card_number VARCHAR(16) NOT NULL,
 	account_id INT NOT NULL,
 	client_id INT NOT NULL,
@@ -55,7 +54,7 @@ CREATE TABLE cards (
 
 
 CREATE TABLE transactions (
-	id INT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
 	tr_date DATE NOT NULL,
 	tr_sum INT NOT NULL,
 	tr_type TINYINT NOT NULL,

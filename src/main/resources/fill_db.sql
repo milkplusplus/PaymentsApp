@@ -1,4 +1,3 @@
-use payments_db;
 DELIMITER $$
 DROP PROCEDURE IF EXISTS `fill_db1`$$
 CREATE PROCEDURE fill_db1()
@@ -21,6 +20,11 @@ BEGIN
 
 	DECLARE my_balance INT;
 
+	DECLARE adm VARCHAR(12) DEFAULT 'admin';
+	DECLARE us VARCHAR(12) DEFAULT 'user'; 
+
+	DECLARE role VARCHAR(12);
+
 	SET i = 1;
 	SET bug_fixer = i;
 	SET bug_fixer1 = i;
@@ -30,10 +34,15 @@ BEGIN
 
 		SET mylog = SUBSTRING(MD5(RAND()) FROM 1 FOR 6);
 		SET mypass = SUBSTRING(MD5(RAND()) FROM 1 FOR 6);
+
+		IF (i % 2) > 0 THEN SET role = adm;
+		ELSE SET role = us;
+		END IF;
+
 		INSERT INTO users
 			(id, is_admin, login, password)	
 		VALUES
-			( i, FLOOR(RAND()*2), mylog, mypass );
+			( i, role, mylog, mypass );
 
 
 		SET first_n = SUBSTRING(MD5(RAND()) FROM 1 FOR 10);
@@ -47,6 +56,7 @@ BEGIN
 		
 		SET j = 3 + FLOOR(RAND()*5);
 		SET k = 2 + FLOOR(RAND()*5);
+
 		WHILE cards_counter < j DO
 			SET my_balance = FLOOR(RAND()*100);
 			INSERT INTO bank_accounts

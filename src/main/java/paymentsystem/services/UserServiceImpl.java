@@ -10,12 +10,33 @@ import org.hibernate.cfg.Configuration;
 public class UserServiceImpl implements UserService{
 	
 	public User findById(Long id) {
-    	SessionFactory sf = new Configuration().configure().buildSessionFactory();
-    	Session session = sf.openSession();
-    	User user = (User) session.get(User.class, id); 
-    	session.close();
-    	sf.close();
-    	return user;
+		SessionFactory sf = null;
+		Session session = null;
+		User user = null;
+		
+		try {			
+			sf = new Configuration().configure().buildSessionFactory();
+			session = sf.openSession();
+			session.beginTransaction();
+			user = (User) session.get(User.class, id);
+	    	session.getTransaction().commit();
+		} catch (RuntimeException e) {
+			try {				
+				session.getTransaction().rollback();
+			} catch (RuntimeException rbe) {
+				System.err.println("Couldn’t roll back transaction" + rbe);
+			}
+		} finally {
+			if(session != null) {				
+				session.close();
+			}
+			if(sf != null) {
+				sf.close();	       				
+			}
+		}
+		
+		if(user == null) throw new RuntimeException("User not found");
+		return user;
 	}
 
 	@Override
@@ -31,7 +52,7 @@ public class UserServiceImpl implements UserService{
 			session.beginTransaction();
 	    	User user = new User();
 	    	user.setId(5L);
-	    	user.setIsAdmin(1);
+	    	user.setIsAdmin("admin");
 	    	user.setLogin("lo");
 	    	user.setPassword("pa");
 	    	session.save(user);

@@ -83,7 +83,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.GET)
     public String deleteById(@PathVariable("id") long id ) {
-        userService.deleteById(4L);
+        userService.deleteById(id);
         //TODO
         return "redirect:/admin/";
     }
