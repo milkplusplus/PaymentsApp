@@ -75,10 +75,16 @@ public class UserController {
 
     @RequestMapping(value = "/admin/find/{id}", method = RequestMethod.GET)
     public ModelAndView findById(@PathVariable("id") long id) {
-        User user = userService.findById(id);
-        //TODO
+        User user = null;
         ModelAndView m = new ModelAndView("successfulFound");
-        m.addObject("login", user.getLogin());
+    	try {
+    		user = userService.findById(id);			
+		} catch (RuntimeException e) {
+			System.err.println(e.getMessage());
+			m.addObject("login", e.getMessage());	
+			return m;
+		}
+    	m.addObject("login", user.getLogin());			
         return m;
     }
 
