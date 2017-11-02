@@ -1,6 +1,10 @@
 package paymentsystem.services;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import org.hibernate.Query;
+import paymentsystem.models.Transaction;
 import paymentsystem.models.User;
 
 import org.hibernate.Session;
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService{
 			session.beginTransaction();
 	    	User user = new User();
 	    	user.setId(5L);
-	    	user.setIsAdmin("admin");
+	    	user.setIs_admin("admin");
 	    	user.setLogin("lo");
 	    	user.setPassword("pa");
 	    	session.save(user);
@@ -99,6 +103,5 @@ public class UserServiceImpl implements UserService{
 				sf.close();	       				
 			}
 		}
-		
-	}
+
 }
