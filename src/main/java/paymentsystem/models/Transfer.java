@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transfer {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

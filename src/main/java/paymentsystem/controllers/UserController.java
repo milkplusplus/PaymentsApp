@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import paymentsystem.models.Transaction;
+import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
 import paymentsystem.services.TransactionService;
 import paymentsystem.services.TransactionServiceImpl;
@@ -36,7 +36,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
     public ModelAndView showAllTransactions() {
-        List<Transaction> tr = transactionService.selectAll();
+        List<Transfer> tr = transactionService.selectAll();
         ModelAndView m = new ModelAndView("showTransactions");
         m.addObject("transactions",tr);
         return m;

@@ -8,21 +8,21 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import paymentsystem.models.Transaction;
+import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
 
 public class TransactionServiceImpl implements TransactionService{
 
 	@Override
-	public List<Transaction> selectAll() {
+	public List<Transfer> selectAll() {
 		SessionFactory sf = null;
 		Session session = null;
-		List<Transaction> tr_list = new LinkedList<Transaction>();
+		List<Transfer> tr_list = new LinkedList<Transfer>();
 		try {			
 			sf = new Configuration().configure().buildSessionFactory();
 			session = sf.openSession();
 			session.beginTransaction();
-			Query q = session.createQuery("from Transaction");
+			Query q = session.createQuery("from Transfer");
 			tr_list = q.list();
 		} catch (RuntimeException e) {
 			try {				
