@@ -3,7 +3,7 @@ package paymentsystem.services;
 import java.util.LinkedList;
 import java.util.List;
 
-import paymentsystem.models.Transaction;
+import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
 
 import org.hibernate.Query;

@@ -2,9 +2,9 @@ package paymentsystem.services;
 
 import java.util.List;
 
-import paymentsystem.models.Transaction;
+import paymentsystem.models.Transfer;
 
 public interface TransactionService {
-	List<Transaction> selectAll();
+	List<Transfer> selectAll();
 
 }
