@@ -11,6 +11,7 @@ public interface UserService {
 //    void save(User user);
     void save();
 	void deleteById(Long id);
+	List<User> selectAll();
 
 }
 

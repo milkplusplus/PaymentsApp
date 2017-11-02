@@ -44,7 +44,7 @@ public class UserController {
 
     @RequestMapping(value = "/admin/show_users", method = RequestMethod.GET)
     public ModelAndView showAllUsers() {
-        List<User> users = null; //= userService.selectAll();
+        List<User> users = userService.selectAll();
         ModelAndView m = new ModelAndView("showUsers");
         m.addObject("users",users);
         return m;

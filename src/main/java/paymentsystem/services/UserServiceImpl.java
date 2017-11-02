@@ -1,8 +1,12 @@
 package paymentsystem.services;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import paymentsystem.models.Transaction;
 import paymentsystem.models.User;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService{
 			session.beginTransaction();
 	    	User user = new User();
 	    	user.setId(5L);
-	    	user.setIsAdmin("admin");
+	    	user.setIs_admin("admin");
 	    	user.setLogin("lo");
 	    	user.setPassword("pa");
 	    	session.save(user);
@@ -100,5 +104,33 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		
+	}
+
+	@Override
+	public List<User> selectAll() {
+		SessionFactory sf = null;
+		Session session = null;
+		List<User> us_list = new LinkedList<User>();
+		try {			
+			sf = new Configuration().configure().buildSessionFactory();
+			session = sf.openSession();
+			session.beginTransaction();
+			Query q = session.createQuery("from User");
+			us_list = q.list();
+		} catch (RuntimeException e) {
+			try {				
+				session.getTransaction().rollback();
+			} catch (RuntimeException rbe) {
+				System.err.println("Couldn’t roll back transaction" + rbe);
+			}
+		} finally {
+			if(session != null) {				
+				session.close();
+			}
+			if(sf != null) {
+				sf.close();	       				
+			}
+		}
+		return us_list;		
 	}
 }
