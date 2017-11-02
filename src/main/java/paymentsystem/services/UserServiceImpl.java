@@ -9,38 +9,42 @@ import paymentsystem.models.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class UserServiceImpl implements UserService{
 	
-	public User findById(Long id) {
-		SessionFactory sf = null;
-		Session session = null;
+	//private SessionFactory sf;
+	
+	public User findById(Long id){
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		
+		Session sess = null;
 		User user = null;
 		
-		try {			
-			sf = new Configuration().configure().buildSessionFactory();
-			session = sf.openSession();
-			session.beginTransaction();
-			user = (User) session.get(User.class, id);
-	    	session.getTransaction().commit();
-		} catch (RuntimeException e) {
-			try {				
-				session.getTransaction().rollback();
-			} catch (RuntimeException rbe) {
-				System.err.println("Couldn’t roll back transaction" + rbe);
+		try {	
+			
+			sess = sf.openSession();
+			Transaction tx = null;
+			
+			try {
+				tx = sess.beginTransaction();
+				user = (User) sess.get(User.class, id);	
+				tx.commit();				
+			} catch(RuntimeException e2) {
+				if(tx != null) tx.rollback();
+				throw new RuntimeException("Error while making query");
 			}
+			
+		} catch (RuntimeException e1) {
+			throw new RuntimeException("Error while opening session");
 		} finally {
-			if(session != null) {				
-				session.close();
-			}
-			if(sf != null) {
-				sf.close();	       				
-			}
+			if(sess != null) sess.close();
 		}
 		
 		if(user == null) throw new RuntimeException("User not found");
 		return user;
+		
 	}
 
 	@Override
