@@ -1,11 +1,13 @@
 package paymentsystem.services;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,19 +60,15 @@ public class UserServiceImpl implements UserService{
 			sf = new Configuration().configure().buildSessionFactory();
 			session = sf.openSession();
 			session.beginTransaction();
-//	    	User user = new User();
-//	    	user.setId(5L);
-//	    	user.setIs_admin("admin");
-//	    	user.setLogin("lo");
-//	    	user.setPassword("pa");
 	    	session.save(user);
 	    	session.getTransaction().commit();
-		} catch (RuntimeException e) {
+		} catch (HibernateException e) {
 			try {				
 				session.getTransaction().rollback();
 			} catch (RuntimeException rbe) {
-				System.err.println("Couldn’t roll back transaction" + rbe);
+				throw new RuntimeException("Rollback error");
 			}
+			throw new RuntimeException("Error while transaction performing");
 		} finally {
 			if(session != null) {				
 				session.close();
