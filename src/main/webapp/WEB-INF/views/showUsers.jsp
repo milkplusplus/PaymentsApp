@@ -17,6 +17,7 @@
         <td>Login</td>
         <td>Role</td>
         <td></td>
+        <td></td>
    </tr>
    </thead>
    <tbody>
@@ -27,6 +28,7 @@
       <td><c:out value="${user.login}"/></td>
       <td><c:out value="${user.is_admin}"/></td>
       <td><a class="btn btn-primary" href="<c:url value="/admin/update/${user.id}"/>" role="button">Update</a></td>
+      <td><a class="btn btn-danger" href="<c:url value="/admin/delete/${user.id}"/>" role="button">Delete</a></td>
     </tr>
   </c:forEach>
   </tbody>

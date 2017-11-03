@@ -1,10 +1,14 @@
 package paymentsystem.controllers;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import paymentsystem.forms.ListUserForm;
+import paymentsystem.forms.UserRow;
 import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
 import paymentsystem.services.TransactionService;
@@ -15,6 +19,8 @@ import paymentsystem.services.UserService;
 import paymentsystem.services.UserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -91,7 +97,39 @@ public class UserController {
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.GET)
     public String deleteById(@PathVariable("id") long id ) {
         userService.deleteById(id);
+        return "redirect:/admin/show_users";
+    }
+
+
+    @RequestMapping(value = "/admin/delete_users")
+    public ModelAndView delete(HttpServletRequest request) {
+        List<User> users = userService.selectAll();
+        List <UserRow>  ur = new ArrayList<UserRow>();
+        for (User u: users) {
+            ur.add(new UserRow(u));
+        }
+        ListUserForm l = new ListUserForm();
+        l.setList(ur);
+        return new ModelAndView("deleteUsers","ListUserForm",l);
+    }
+
+    @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
+    public String delete(@ModelAttribute("ListUserForm") ListUserForm listUserForm, BindingResult result) {
         //TODO
-        return "redirect:/admin/";
+        try{
+        List<UserRow>  selectedList = listUserForm.getList();
+
+            List<Long> id = new ArrayList();
+            for (UserRow ur : selectedList) {
+                if (ur.isCheckControl() == false) {
+                    id.add(ur.getUser().getId());
+                }
+            }
+            System.out.println(selectedList);
+            for (int i = 0; i < id.size(); i++) {
+                userService.deleteById(id.get(i));
+            }
+        } catch(Exception e){}
+        return "redirect:/admin/delete_users";
     }
 }
