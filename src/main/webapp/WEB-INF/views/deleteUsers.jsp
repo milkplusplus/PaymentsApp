@@ -27,7 +27,7 @@
       </spring:bind>
       </td>
 
-      <td>${status.index}</td>
+      <td>${status.index + 1}</td>
       <td><c:out value="${user_row.user.id}"/></td>
       <td><c:out value="${user_row.user.login}"/></td>
       <td><c:out value="${user_row.user.is_admin}"/></td>

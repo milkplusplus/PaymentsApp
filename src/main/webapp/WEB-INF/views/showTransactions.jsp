@@ -10,7 +10,7 @@
 <table class="table table-striped">
 <thead>
   <tr>
-        <td>INDEX</td>
+        <td>Index</td>
         <td>ID</td>
         <td>Data</td>
         <td>Sum</td>
@@ -22,7 +22,7 @@
    <tbody>
   <c:forEach var="tr" items="${transactions}" varStatus="status">
     <tr>
-      <td><c:out value="${status.index}"/></td>
+      <td><c:out value="${status.index + 1}"/></td>
       <td><c:out value="${tr.id}"/></td>
       <td><c:out value="${tr.tr_date}"/></td>
       <td><c:out value="${tr.tr_sum}"/></td>

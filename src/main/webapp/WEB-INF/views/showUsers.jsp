@@ -23,7 +23,7 @@
    <tbody>
   <c:forEach var="user" items="${users}" varStatus="status">
     <tr>
-      <td><c:out value="${status.index}"/></td>
+      <td><c:out value="${status.index + 1}"/></td>
       <td><c:out value="${user.id}"/></td>
       <td><c:out value="${user.login}"/></td>
       <td><c:out value="${user.is_admin}"/></td>
