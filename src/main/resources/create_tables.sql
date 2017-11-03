@@ -10,7 +10,7 @@ CREATE TABLE users (
 	is_admin VARCHAR(12) NOT NULL,
 	login VARCHAR(6) NOT NULL,
 	password VARCHAR(6) NOT NULL,
-
+	UNIQUE(login),
 	PRIMARY KEY(id)
 ) ENGINE INNODB;
 
