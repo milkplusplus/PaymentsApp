@@ -118,7 +118,6 @@ public class UserController {
         //TODO
         try{
         List<UserRow>  selectedList = listUserForm.getList();
-
             List<Long> id = new ArrayList();
             for (UserRow ur : selectedList) {
                 if (ur.isCheckControl() == false) {
