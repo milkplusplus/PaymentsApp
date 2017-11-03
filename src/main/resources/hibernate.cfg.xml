@@ -11,19 +11,19 @@
 
     <!-- Assume test is the database name -->
     <property name="hibernate.connection.url">
-        jdbc:mysql://localhost/payments_db?characterEncoding=utf8
+        jdbc:mysql://localhost/payments_db?serverTimezone=UTC&amp;characterEncoding=utf8
     </property>
     <property name="hibernate.connection.username">
         root
     </property>
     <property name="hibernate.connection.password">
-        your_password
+        t00r
     </property>
 
     <mapping class="paymentsystem.models.User" />
     <mapping class="paymentsystem.models.Card" /> 
     <mapping class="paymentsystem.models.Client" />
-    <mapping class="paymentsystem.models.Transaction" />  
+    <mapping class="paymentsystem.models.Transfer" />
     <mapping class="paymentsystem.models.BankAccount" />   
 
 </session-factory>

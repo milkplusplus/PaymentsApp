@@ -48,8 +48,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	//public void save(User user) {
-		public void save() {
+	public void save(User user) {
+		//public void save() {
 		
 		SessionFactory sf = null;
 		Session session = null;
@@ -58,11 +58,11 @@ public class UserServiceImpl implements UserService{
 			sf = new Configuration().configure().buildSessionFactory();
 			session = sf.openSession();
 			session.beginTransaction();
-	    	User user = new User();
-	    	user.setId(5L);
-	    	user.setIs_admin("admin");
-	    	user.setLogin("lo");
-	    	user.setPassword("pa");
+//	    	User user = new User();
+//	    	user.setId(5L);
+//	    	user.setIs_admin("admin");
+//	    	user.setLogin("lo");
+//	    	user.setPassword("pa");
 	    	session.save(user);
 	    	session.getTransaction().commit();
 		} catch (RuntimeException e) {

@@ -68,8 +68,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/create", method = RequestMethod.GET)
-    public String create(User user) {
-        //userService.save(user);
+    public ModelAndView createByAdmin() {
+        ModelAndView m = new ModelAndView("createUserByAdmin");
+        return m;
+    }
+
+    @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
+    public String submitCreateByAdmin(Model m, @ModelAttribute("user") User user) {
+        System.out.println(user.getLogin() + " " + user.getPassword() + " " + user.getIs_admin());;
+        try {
+            userService.save(user);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            m.addAttribute("error", e.getMessage());
+            return "createUserByAdmin";
+        }
         return "redirect:/admin/show_users";
     }
 
