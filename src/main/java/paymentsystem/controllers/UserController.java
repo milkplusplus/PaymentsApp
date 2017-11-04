@@ -53,10 +53,10 @@ public class UserController {
     	ModelAndView m = new ModelAndView("showUsers");
     	List<User> users = new LinkedList<User>();
     	try {
-    		users = userService.selectAll();			
+    		users = userService.selectAll();
 		} catch (RuntimeException e) {
 			System.err.println(e.getMessage());
-			//m.addObject("error", e.getMessage()); ///////////////////////////////////////////////????????
+			m.addObject("error", e.getMessage());
 			return m;
 		}
         m.addObject("users",users);
@@ -107,7 +107,7 @@ public class UserController {
     		user = userService.findByLog(log);			
 		} catch (RuntimeException e) {
 			System.err.println(e.getMessage());
-			//m.addObject("login", e.getMessage());	///////////////////////////////////////////////????????
+			m.addObject("error", e.getMessage());
 			return m;
 		}
     	m.addObject("login", user.getLogin());			

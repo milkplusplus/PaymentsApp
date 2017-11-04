@@ -33,6 +33,7 @@
   </c:forEach>
   </tbody>
 </table>
+<div style="color: red"><c:out value="${error}"/></div>
 </div>
   </body>
 </html>
