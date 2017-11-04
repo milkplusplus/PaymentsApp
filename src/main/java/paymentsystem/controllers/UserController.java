@@ -21,6 +21,7 @@ import paymentsystem.services.UserServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -36,7 +37,6 @@ public class UserController {
 
     @RequestMapping(value = "/user/show_transactions", method = RequestMethod.GET)
     public ModelAndView showTransactions() {
-        //TODO
         return new ModelAndView("showTransactions");
     }
 
@@ -50,8 +50,15 @@ public class UserController {
 
     @RequestMapping(value = "/admin/show_users", method = RequestMethod.GET)
     public ModelAndView showAllUsers() {
-        List<User> users = userService.selectAll();
-        ModelAndView m = new ModelAndView("showUsers");
+    	ModelAndView m = new ModelAndView("showUsers");
+    	List<User> users = new LinkedList<User>();
+    	try {
+    		users = userService.selectAll();			
+		} catch (RuntimeException e) {
+			System.err.println(e.getMessage());
+			//m.addObject("error", e.getMessage()); ///////////////////////////////////////////////????????
+			return m;
+		}
         m.addObject("users",users);
         return m;
     }
@@ -92,15 +99,15 @@ public class UserController {
         return "redirect:/admin/show_users";
     }
 
-    @RequestMapping(value = "/admin/find/{id}", method = RequestMethod.GET)
-    public ModelAndView findById(@PathVariable("id") long id) {
-        User user = null;
+    @RequestMapping(value = "/admin/find/{login}", method = RequestMethod.GET)
+    public ModelAndView findByLog(@PathVariable("login") String log) {
+    	User user = new User();
         ModelAndView m = new ModelAndView("successfulFound");
     	try {
-    		user = userService.findById(id);			
+    		user = userService.findByLog(log);			
 		} catch (RuntimeException e) {
 			System.err.println(e.getMessage());
-			m.addObject("login", e.getMessage());	
+			//m.addObject("login", e.getMessage());	///////////////////////////////////////////////????????
 			return m;
 		}
     	m.addObject("login", user.getLogin());			
@@ -109,8 +116,18 @@ public class UserController {
 
     @RequestMapping(value = "/admin/delete/{id}", method = RequestMethod.GET)
     public String deleteById(@PathVariable("id") long id ) {
-        userService.deleteById(id);
-        return "redirect:/admin/show_users";
+
+        try {
+        	userService.deleteById(id);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            //m.addAttribute("error", e.getMessage()); ///////////////////////////////////////////////????????
+            return "createUserByAdmin";
+        }
+        return "redirect:/admin/show_users";  
+        
+        
+        
     }
 
 
@@ -123,7 +140,7 @@ public class UserController {
         }
         ListUserForm l = new ListUserForm();
         l.setList(ur);
-        return new ModelAndView("deleteUsers","ListUserForm",l);
+        return new ModelAndView("delsession hibernateeteUsers","ListUserForm",l);
     }
 
     @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)

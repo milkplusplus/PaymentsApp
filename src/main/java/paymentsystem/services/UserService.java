@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import paymentsystem.models.User;
 
 public interface UserService {
-	User findById(Long id);
+	User findByLog(String log);
     void save(User user);
     //void save();
 	void deleteById(Long id);

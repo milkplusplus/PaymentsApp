@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService{
 	
 	//private SessionFactory sf;
 	
-	public User findById(Long id){
+	public User findByLog(String log){
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		
 		Session sess = null;
@@ -31,15 +31,19 @@ public class UserServiceImpl implements UserService{
 			
 			try {
 				tx = sess.beginTransaction();
-				user = (User) sess.get(User.class, id);	
+				user = (User) sess.get(User.class, log);	
 				tx.commit();				
 			} catch(RuntimeException e2) {
-				if(tx != null) tx.rollback();
+				try {
+					if(tx != null) tx.rollback();
+				} catch (Exception e3) {
+					throw new RuntimeException("Rollback error");
+				}	
 				throw new RuntimeException("Error while making query");
 			}
 			
 		} catch (RuntimeException e1) {
-			throw new RuntimeException("Error while opening session");
+			throw new RuntimeException(e1.getMessage());
 		} finally {
 			if(sess != null) sess.close();
 		}
@@ -51,88 +55,89 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void save(User user) {
-		//public void save() {
 		
-		SessionFactory sf = null;
-		Session session = null;
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();		
 		
-		try {			
-			sf = new Configuration().configure().buildSessionFactory();
-			session = sf.openSession();
-			session.beginTransaction();
-	    	session.save(user);
-	    	session.getTransaction().commit();
-		} catch (HibernateException e) {
-			try {				
-				session.getTransaction().rollback();
-			} catch (RuntimeException rbe) {
-				throw new RuntimeException("Rollback error");
+		Session sess = null;
+		
+		try {	
+			
+			sess = sf.openSession();
+			Transaction tx = null;
+			
+			try {
+				tx = sess.beginTransaction();
+				sess.save(user);	
+				tx.commit();				
+			} catch(RuntimeException e2) {
+				try {
+					if(tx != null) tx.rollback();
+				} catch (Exception e3) {
+					throw new RuntimeException("Rollback error");
+				}				
+				throw new RuntimeException("Error while performing transaction");
 			}
-			throw new RuntimeException("Error while transaction performing");
+			
+		} catch (RuntimeException e1) {
+			throw new RuntimeException(e1.getMessage());
 		} finally {
-			if(session != null) {				
-				session.close();
-			}
-			if(sf != null) {
-				sf.close();	       				
-			}
-		}		
+			if(sess != null) sess.close();
+		}
+		
 	}
 	
 	public void deleteById(Long id) {
 		
-		SessionFactory sf = null;
-		Session session = null;
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();		
 		
-		try {			
-			sf = new Configuration().configure().buildSessionFactory();
-			session = sf.openSession();
-			session.beginTransaction();
-			User user = (User) session.get(User.class, id);
-			session.delete(user);
-			session.getTransaction().commit();
-		} catch (RuntimeException e) {
-			try {				
-				session.getTransaction().rollback();
-			} catch (RuntimeException rbe) {
-				System.err.println("Couldn’t roll back transaction" + rbe);
+		Session sess = null;
+		
+		try {	
+			
+			sess = sf.openSession();
+			Transaction tx = null;
+			
+			try {
+				tx = sess.beginTransaction();
+				User user = (User) sess.get(User.class, id);
+				sess.delete(user);	
+				tx.commit();				
+			} catch(RuntimeException e2) {
+				try {
+					if(tx != null) tx.rollback();
+				} catch (Exception e3) {
+					throw new RuntimeException("Rollback error");
+				}				
+				throw new RuntimeException("Error while performing transaction");
 			}
+			
+		} catch (RuntimeException e1) {
+			throw new RuntimeException(e1.getMessage());
 		} finally {
-			if(session != null) {				
-				session.close();
-			}
-			if(sf != null) {
-				sf.close();	       				
-			}
+			if(sess != null) sess.close();
 		}
 		
 	}
 
 	@Override
 	public List<User> selectAll() {
-		SessionFactory sf = null;
+	
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		Session session = null;
 		List<User> us_list = new LinkedList<User>();
+		
 		try {			
-			sf = new Configuration().configure().buildSessionFactory();
 			session = sf.openSession();
-			session.beginTransaction();
 			Query q = session.createQuery("from User");
 			us_list = q.list();
 		} catch (RuntimeException e) {
-			try {				
-				session.getTransaction().rollback();
-			} catch (RuntimeException rbe) {
-				System.err.println("Couldn’t roll back transaction" + rbe);
-			}
+			throw new RuntimeException("Error while transaction performing");
 		} finally {
 			if(session != null) {				
 				session.close();
 			}
-			if(sf != null) {
-				sf.close();	       				
-			}
 		}
+		
 		return us_list;		
 	}
 }
