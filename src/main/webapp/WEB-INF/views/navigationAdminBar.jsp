@@ -7,6 +7,7 @@
           <ul class="nav navbar-nav" style="float: none!Important;">
             <li><a href="/PaymentsApp/admin">Home</a></li>
             <li><a href="/PaymentsApp/admin/show_users">Manage users</a></li>
+            <li><a href="/PaymentsApp/admin/show_bank-accounts">Manage Bank Accounts</a></li>
             <!-- <li><a href="/PaymentsApp/admin/delete_users">Multiple users deleting</a></li> -->
             <li><a href="/PaymentsApp/admin/find">Find user</a></li>
             <li><a href="/PaymentsApp/admin/show_transactions">Show transactions</a></li>

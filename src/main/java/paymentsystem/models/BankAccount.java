@@ -29,12 +29,11 @@ public class BankAccount {
         this.balance = balance;
     }
 
-    public boolean isBlocked() {
+    public boolean getIs_blocked() {
         return is_blocked;
     }
 
-    public void setBlocked(boolean blocked) {
-        is_blocked = blocked;
+    public void setIs_blocked(boolean is_blocked) {
+        this.is_blocked = is_blocked;
     }
-    
 }
