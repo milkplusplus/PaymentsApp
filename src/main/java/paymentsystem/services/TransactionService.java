@@ -6,4 +6,5 @@ import paymentsystem.models.Transfer;
 
 public interface TransactionService {
 	List<Transfer> selectAll(int id);
+	List<Transfer> selectAll();
 }

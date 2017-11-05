@@ -50,20 +50,24 @@ public class UserController {
 
     @RequestMapping(value = "/user/show_transactions", method = RequestMethod.GET)
     public ModelAndView showTransactions() {
-        return new ModelAndView("showUserTransactions");
+        ModelAndView m = new ModelAndView("showTransactions");
+        List<Transfer> tr = new LinkedList<Transfer>();
+        int id = 1;
+        try {
+            tr = transactionService.selectAll(id);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            m.addObject("error", e.getMessage());
+            return m;
+        }
+        m.addObject("transactions",tr);
+        return m;
     }
 
-    @RequestMapping(value = "/admin/show_transactions/{client_id}", method = RequestMethod.GET)
-    public ModelAndView showTransactionsByUserId(@PathVariable("client_id") int id) {
-    	ModelAndView m = new ModelAndView("showTransactions");
-    	List<Transfer> tr = new LinkedList<Transfer>();
-    	try {
-    		tr = transactionService.selectAll(id);
-		} catch (RuntimeException e) {
-			System.err.println(e.getMessage());
-			m.addObject("error", e.getMessage());
-			return m;
-		}
+    @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
+    public ModelAndView showAllTransactions() {
+        List<Transfer> tr = transactionService.selectAll();
+        ModelAndView m = new ModelAndView("showTransactions");
         m.addObject("transactions",tr);
         return m;
     }
@@ -114,18 +118,25 @@ public class UserController {
         return "redirect:/admin/show_users";
     }
 
-    @RequestMapping(value = "/admin/find/{login}", method = RequestMethod.GET)
-    public ModelAndView findByLog(@PathVariable("login") String log) {
+    @RequestMapping(value = "/admin/find", method = RequestMethod.GET)
+    public String find() {
+        return "searchPage";
+    }
+
+    @RequestMapping(value = "/admin/find", method = RequestMethod.POST)
+    public ModelAndView findByLog(Model model, HttpServletRequest request) {
+        String log = request.getParameter("login");
     	User user = new User();
-        ModelAndView m = new ModelAndView("successfulFound");
+        ModelAndView m = new ModelAndView("searchResults");
+        //FIXME
     	try {
-    		user = userService.findByLog(log);			
+    		user = userService.findByLog(log);
 		} catch (RuntimeException e) {
 			System.err.println(e.getMessage());
 			m.addObject("error", e.getMessage());
 			return m;
 		}
-    	m.addObject("login", user.getLogin());			
+    	m.addObject("user", user);
         return m;
     }
 
@@ -139,10 +150,7 @@ public class UserController {
             //m.addAttribute("error", e.getMessage()); ///////////////////////////////////////////////????????
             return "createUserByAdmin";
         }
-        return "redirect:/admin/show_users";  
-        
-        
-        
+        return "redirect:/admin/show_users";
     }
 
 

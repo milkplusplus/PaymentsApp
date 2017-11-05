@@ -33,4 +33,23 @@ public class TransactionServiceImpl implements TransactionService{
 		return tr_list;
 	}
 
+	@Override
+	public List<Transfer> selectAll() {
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		Session session = null;
+		List<Transfer> tr_list = new LinkedList<Transfer>();
+		try {
+			session = sf.openSession();
+			Query q = session.createQuery("from Transfer");
+			tr_list = q.list();
+		} catch (RuntimeException e) {
+			throw new RuntimeException("Error while transaction performing");
+		} finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		return tr_list;
+	}
+
 }
