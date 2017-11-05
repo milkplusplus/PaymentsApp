@@ -17,7 +17,8 @@ import org.hibernate.cfg.Configuration;
 public class UserServiceImpl implements UserService{
 	
 	//private SessionFactory sf;
-	
+
+	@Override
 	public User findByLog(String log){
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		
@@ -55,6 +56,43 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	public User findById(long id){
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+
+		Session sess = null;
+		User user = null;
+
+		try {
+
+			sess = sf.openSession();
+			Transaction tx = null;
+
+			try {
+				tx = sess.beginTransaction();
+				Query q = sess.createQuery("from User where id = :id");
+				q.setParameter("id", id);
+				user = (User)q.list().get(0);
+				tx.commit();
+			} catch(RuntimeException e2) {
+				try {
+					if(tx != null) tx.rollback();
+				} catch (Exception e3) {
+					throw new RuntimeException("Rollback error");
+				}
+				throw new RuntimeException("Error while making query");
+			}
+
+		} catch (RuntimeException e1) {
+			throw new RuntimeException(e1.getMessage());
+		} finally {
+			if(sess != null) sess.close();
+		}
+
+		if(user == null) throw new RuntimeException("User not found");
+		return user;
+
+	}
+
 	@Override
 	public void save(User user) {
 		
@@ -87,7 +125,8 @@ public class UserServiceImpl implements UserService{
 		}
 		
 	}
-	
+
+	@Override
 	public void deleteById(Long id) {
 		
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();		

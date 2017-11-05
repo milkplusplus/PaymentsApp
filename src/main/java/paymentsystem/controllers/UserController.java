@@ -101,7 +101,6 @@ public class UserController {
 
     @RequestMapping(value = "/admin/create", method = RequestMethod.POST)
     public String submitCreateByAdmin(Model m, @ModelAttribute("user") User user) {
-        System.out.println(user.getLogin() + " " + user.getPassword() + " " + user.getIs_admin());;
         try {
             userService.save(user);
         } catch (RuntimeException e) {
@@ -113,8 +112,23 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.GET)
-    	public String update(@PathVariable("id") long id) {
-        //userService.save();
+    	public ModelAndView updateByAdmin(@PathVariable("id") long id) {
+        ModelAndView m = new ModelAndView("updateUserByAdmin");
+        User user = userService.findById(id);
+        m.addObject("user", user);
+        return m;
+    }
+
+    @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
+    public String submitUpdateByAdmin(Model m, @ModelAttribute("user") User user) {
+        try {
+        //    userService.update(user);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            m.addAttribute("error", e.getMessage());
+            m.addAttribute("user", user);
+            return "updateUserByAdmin";
+        }
         return "redirect:/admin/show_users";
     }
 
