@@ -9,9 +9,23 @@
   <body>
   <jsp:include page="navigationAdminBar.jsp"></jsp:include>
     <div class="container">
-        <div>
-
-        </div>
+    <h1>Search Result</h1>
+        <table class="table table-striped">
+        <thead>
+          <tr>
+                <td>ID</td>
+                <td>Login</td>
+                <td>Role</td>
+           </tr>
+           </thead>
+           <tbody>
+            <tr>
+              <td><c:out value="${user.id}"/></td>
+              <td><c:out value="${user.login}"/></td>
+              <td><c:out value="${user.is_admin}"/></td>
+            </tr>
+          </tbody>
+        </table>
         <div style="color: red"><c:out value="${error}"/></div>
     </div>
   </body>

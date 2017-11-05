@@ -31,7 +31,9 @@ public class UserServiceImpl implements UserService{
 			
 			try {
 				tx = sess.beginTransaction();
-				user = (User) sess.get(User.class, log);	
+				Query q = sess.createQuery("from User where login = :log");
+				q.setParameter("log", log);
+				user = (User)q.list().get(0);
 				tx.commit();				
 			} catch(RuntimeException e2) {
 				try {

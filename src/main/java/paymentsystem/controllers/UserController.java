@@ -128,7 +128,6 @@ public class UserController {
         String log = request.getParameter("login");
     	User user = new User();
         ModelAndView m = new ModelAndView("searchResults");
-        //FIXME
     	try {
     		user = userService.findByLog(log);
 		} catch (RuntimeException e) {

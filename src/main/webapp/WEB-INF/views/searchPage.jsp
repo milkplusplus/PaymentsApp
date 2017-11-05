@@ -9,6 +9,7 @@
   <body>
   <jsp:include page="navigationAdminBar.jsp"></jsp:include>
     <div class="container">
+    <h1>Search</h1>
         <div type="div-search">
             <form:form name="/admin/find" method="POST">
             <input type="text-search" id="login" name="login" placeholder="Enter user's login...">
