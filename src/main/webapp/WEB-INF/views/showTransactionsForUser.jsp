@@ -5,7 +5,7 @@
     <jsp:include page="includeFile.jsp"></jsp:include>
 </head>
 <body>
-<jsp:include page="navigationAdminBar.jsp"></jsp:include>
+<jsp:include page="navigationUserBar.jsp"></jsp:include>
 <div class="container">
     <h1>List of the transactions</h1>
     <table class="table table-striped">

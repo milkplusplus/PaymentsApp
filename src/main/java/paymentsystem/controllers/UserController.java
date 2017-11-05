@@ -139,7 +139,7 @@ public class UserController {
     @RequestMapping(value = "/admin/update/{id}", method = RequestMethod.POST)
     public String submitUpdateByAdmin(Model m, @ModelAttribute("user") User user) {
         try {
-        //    userService.update(user);
+            userService.update(user);
         } catch (RuntimeException e) {
             System.err.println(e.getMessage());
             m.addAttribute("error", e.getMessage());
