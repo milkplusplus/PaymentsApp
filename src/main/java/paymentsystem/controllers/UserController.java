@@ -53,10 +53,17 @@ public class UserController {
         return new ModelAndView("showUserTransactions");
     }
 
-    @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
-    public ModelAndView showAllTransactions() {
-        List<Transfer> tr = transactionService.selectAll();
-        ModelAndView m = new ModelAndView("showTransactions");
+    @RequestMapping(value = "/admin/show_transactions/{client_id}", method = RequestMethod.GET)
+    public ModelAndView showTransactionsByUserId(@PathVariable("client_id") int id) {
+    	ModelAndView m = new ModelAndView("showTransactions");
+    	List<Transfer> tr = new LinkedList<Transfer>();
+    	try {
+    		tr = transactionService.selectAll(id);
+		} catch (RuntimeException e) {
+			System.err.println(e.getMessage());
+			m.addObject("error", e.getMessage());
+			return m;
+		}
         m.addObject("transactions",tr);
         return m;
     }

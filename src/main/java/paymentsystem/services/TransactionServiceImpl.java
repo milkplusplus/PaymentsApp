@@ -14,28 +14,20 @@ import paymentsystem.models.User;
 public class TransactionServiceImpl implements TransactionService{
 
 	@Override
-	public List<Transfer> selectAll() {
-		SessionFactory sf = null;
+	public List<Transfer> selectAll(int id) {
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
 		Session session = null;
 		List<Transfer> tr_list = new LinkedList<Transfer>();
 		try {			
-			sf = new Configuration().configure().buildSessionFactory();
 			session = sf.openSession();
-			session.beginTransaction();
-			Query q = session.createQuery("from Transfer");
+			Query q = session.createQuery("from Transfer where client_id = :id");
+			q.setParameter("id", id);
 			tr_list = q.list();
 		} catch (RuntimeException e) {
-			try {				
-				session.getTransaction().rollback();
-			} catch (RuntimeException rbe) {
-				System.err.println("Couldn’t roll back transaction" + rbe);
-			}
+			throw new RuntimeException("Error while transaction performing");
 		} finally {
 			if(session != null) {				
 				session.close();
-			}
-			if(sf != null) {
-				sf.close();	       				
 			}
 		}
 		return tr_list;

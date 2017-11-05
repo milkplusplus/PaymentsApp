@@ -35,5 +35,6 @@
   </tbody>
 </table>
 </div>
+<div style="color: red"><c:out value="${error}"/></div>
   </body>
 </html>
