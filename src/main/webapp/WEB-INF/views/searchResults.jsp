@@ -10,6 +10,7 @@
   <jsp:include page="navigationAdminBar.jsp"></jsp:include>
     <div class="container">
     <h1>Search Result</h1>
+    <c:if test="${user != null}">
         <table class="table table-striped">
         <thead>
           <tr>
@@ -26,6 +27,7 @@
             </tr>
           </tbody>
         </table>
+     </c:if>
         <div style="color: red"><c:out value="${error}"/></div>
     </div>
   </body>
