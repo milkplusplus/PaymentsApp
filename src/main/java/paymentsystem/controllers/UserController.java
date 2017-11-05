@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import paymentsystem.forms.ListUserForm;
 import paymentsystem.forms.UserRow;
+import paymentsystem.models.BankAccount;
 import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
-import paymentsystem.services.TransactionService;
-import paymentsystem.services.TransactionServiceImpl;
-import paymentsystem.services.UserService;
-import paymentsystem.services.UserServiceImpl;
+import paymentsystem.services.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +25,7 @@ public class UserController {
 
     private UserService userService = new UserServiceImpl();
     private TransactionService transactionService = new TransactionServiceImpl();
+    private BankAccountService bankAccountService = new BankAccountServiceImpl();
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String indexUser() {
@@ -87,10 +86,31 @@ public class UserController {
         return m;
     }
 
-    @RequestMapping(value = "/admin/show_clients/unblock/{id}", method = RequestMethod.GET)
-    public String unblockUser(@PathVariable("id") int id ){
-        //TODO
-        return "redirect:/admin/show_users";
+    @RequestMapping(value = "/admin/show_bank-accounts")
+    public ModelAndView changeBankAccountStatus(){
+        ModelAndView m = new ModelAndView("showBankAccounts");
+        //FIXME
+        List<BankAccount> bankAccs = new LinkedList<BankAccount>();
+        try {
+            bankAccs = bankAccountService.selectAll();
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            m.addObject("error", e.getMessage());
+            return m;
+        }
+        m.addObject("bankAccs",bankAccs);
+        return m;
+    }
+
+    @RequestMapping(value = "/admin/show_bank-accounts/change_status/{id}", method = RequestMethod.GET)
+    public String changeBankAccountStatus(@PathVariable("id") long id){
+        try {
+            bankAccountService.changeStatusById(id);
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            return "redirect:/admin/show_bank-accounts";
+        }
+        return "redirect:/admin/show_bank-accounts";
     }
 
     @RequestMapping(value = "/admin/create", method = RequestMethod.GET)
