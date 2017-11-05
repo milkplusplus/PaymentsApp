@@ -13,8 +13,6 @@ import paymentsystem.models.Transfer;
 import paymentsystem.models.User;
 import paymentsystem.services.TransactionService;
 import paymentsystem.services.TransactionServiceImpl;
-//import paymentsystem.services.TransactionService;
-//import paymentsystem.services.TransactionServiceImpl;
 import paymentsystem.services.UserService;
 import paymentsystem.services.UserServiceImpl;
 
@@ -31,13 +29,28 @@ public class UserController {
     private TransactionService transactionService = new TransactionServiceImpl();
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String index() {
-        return "startPage";
+    public String indexUser() {
+        return "homeUserPage";
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public String indexAdmin() {
+        return "homeAdminPage";
+    }
+
+    @RequestMapping(value = "/user/about", method = RequestMethod.GET)
+    public String aboutUser() {
+        return "aboutUserPage";
+    }
+
+    @RequestMapping(value = "/admin/about", method = RequestMethod.GET)
+    public String aboutAdmin() {
+        return "aboutAdminPage";
     }
 
     @RequestMapping(value = "/user/show_transactions", method = RequestMethod.GET)
     public ModelAndView showTransactions() {
-        return new ModelAndView("showTransactions");
+        return new ModelAndView("showUserTransactions");
     }
 
     @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
@@ -67,11 +80,6 @@ public class UserController {
     public String unblockUser(@PathVariable("id") int id ){
         //TODO
         return "redirect:/admin/show_users";
-    }
-
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String indexAdmin() {
-        return "startPageForAdmin";
     }
 
     @RequestMapping(value = "/admin/create", method = RequestMethod.GET)
@@ -140,7 +148,7 @@ public class UserController {
         }
         ListUserForm l = new ListUserForm();
         l.setList(ur);
-        return new ModelAndView("delsession hibernateeteUsers","ListUserForm",l);
+        return new ModelAndView("deleteUsers","ListUserForm",l);
     }
 
     @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)

@@ -1,10 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
-  <head><title>Transactions</title>
+  <head><title>Transactions List</title>
     <jsp:include page="includeFile.jsp"></jsp:include>
   </head>
   <body>
+  <jsp:include page="navigationAdminBar.jsp"></jsp:include>
   <div class="container">
     <h1>List of the transactions</h1>
 <table class="table table-striped">

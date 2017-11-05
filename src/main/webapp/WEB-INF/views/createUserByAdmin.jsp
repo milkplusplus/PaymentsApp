@@ -8,6 +8,7 @@
     <jsp:include page="includeFile.jsp"></jsp:include>
 </head>
 <body>
+<jsp:include page="navigationAdminBar.jsp"></jsp:include>
 <form:form name="getNewClient" method="POST">
     <div class="container">
         <h1>Create a new client</h1>

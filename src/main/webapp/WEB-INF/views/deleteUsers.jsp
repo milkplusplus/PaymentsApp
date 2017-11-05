@@ -6,6 +6,7 @@
     <jsp:include page="includeFile.jsp"></jsp:include>
   </head>
   <body>
+  <jsp:include page="navigationAdminBar.jsp"></jsp:include>
   <div class="container">
     <h1>List of the users</h1>
 <form:form method="post" action="/PaymentsApp/admin/delete" modelAttribute="ListUserForm">
@@ -23,7 +24,7 @@
   <c:forEach var="user_row" items="${ListUserForm.list}" varStatus="status">
     <tr>
       <td><spring:bind path = "ListUserForm.list[${status.index}].checkControl">
-      <form:checkbox path="list[${status.index}].checkControl" value="${user_row.checkControl}"/>
+      <form:checkbox path="list" value="${user_row.checkControl}"/>
       </spring:bind>
       </td>
 

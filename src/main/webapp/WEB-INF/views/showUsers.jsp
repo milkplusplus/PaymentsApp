@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
-  <head><title>Users</title>
+  <head><title>Users List</title>
     <jsp:include page="includeFile.jsp"></jsp:include>
-
   </head>
   <body>
+  <jsp:include page="navigationAdminBar.jsp"></jsp:include>
   <div class="container">
     <h1>List of the users</h1>
     <a class="btn btn-success pull-right" href="<c:url value="/admin/create"/>" role="button">Create new</a>
