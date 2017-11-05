@@ -1,9 +1,7 @@
 package paymentsystem.controllers;
 
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +13,6 @@ import paymentsystem.models.User;
 import paymentsystem.services.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,9 +46,9 @@ public class UserController {
 
     @RequestMapping(value = "/user/show_transactions", method = RequestMethod.GET)
     public ModelAndView showTransactions() {
-        ModelAndView m = new ModelAndView("showTransactions");
-        List<Transfer> tr = new LinkedList<Transfer>();
-        int id = 1;
+        ModelAndView m = new ModelAndView("showTransactionsForUser");
+        List<Transfer> tr;
+        int id = 3;
         try {
             tr = transactionService.selectAll(id);
         } catch (RuntimeException e) {
@@ -66,7 +63,7 @@ public class UserController {
     @RequestMapping(value = "/admin/show_transactions", method = RequestMethod.GET)
     public ModelAndView showAllTransactions() {
         List<Transfer> tr = transactionService.selectAll();
-        ModelAndView m = new ModelAndView("showTransactions");
+        ModelAndView m = new ModelAndView("showTransactionsForAdmin");
         m.addObject("transactions",tr);
         return m;
     }
