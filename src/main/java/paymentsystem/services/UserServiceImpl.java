@@ -128,35 +128,32 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void update(User user) {
-
-//		SessionFactory sf = new Configuration().configure().buildSessionFactory();
-//
-//		Session sess = null;
-//
-//		try {
-//
-//			sess = sf.openSession();
-//			Transaction tx = null;
-//
-//			try {
-//				tx = sess.beginTransaction();
-//				sess.update(user);
-//				tx.commit();
-//			} catch(RuntimeException e2) {
-//				try {
-//					if(tx != null) tx.rollback();
-//				} catch (Exception e3) {
-//					throw new RuntimeException("Rollback error");
-//				}
-//				throw new RuntimeException("Error while performing transaction");
-//			}
-//
-//		} catch (RuntimeException e1) {
-//			throw new RuntimeException(e1.getMessage());
-//		} finally {
-//			if(sess != null) sess.close();
-//		}
-
+		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		Session sess = null;
+		try {
+			sess = sf.openSession();
+			Transaction tx = null;
+			try {
+				tx = sess.beginTransaction();
+				String hql = "update User set login =:login, password=:password, is_admin=:is_admin where id=:id";
+                sess.createQuery(hql)
+						.setParameter("id", user.getId()).setParameter("login", user.getLogin())
+						.setParameter("password", user.getPassword()).setParameter("is_admin", user.getIs_admin())
+                        .executeUpdate();
+				tx.commit();
+			} catch(RuntimeException e2) {
+				try {
+					if(tx != null) tx.rollback();
+				} catch (Exception e3) {
+					throw new RuntimeException("Rollback error");
+				}
+				throw new RuntimeException("Error while performing transaction");
+			}
+		} catch (RuntimeException e1) {
+			throw new RuntimeException(e1.getMessage());
+		} finally {
+			if(sess != null) sess.close();
+		}
 	}
 
 	@Override

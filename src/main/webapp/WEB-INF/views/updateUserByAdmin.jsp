@@ -14,6 +14,13 @@
         <h1>Update a client</h1>
         <table class="table table-striped">
             <tr>
+                <td>Id</td>
+                <%--<td><input type="text" name="id" value="<c:out value="${user.id}"/>" readonly/></td>--%>
+                <td><c:out value="${user.id}"/>
+                    <input type="text" name="id" value="<c:out value="${user.id}"/>" readonly hidden/>
+                </td>
+            </tr>
+            <tr>
                 <td>Login</td>
                 <td><input type="text" name="login" value="<c:out value="${user.login}"/>" /></td>
             </tr>
